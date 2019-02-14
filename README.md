@@ -1,4 +1,6 @@
-# README
+# Jetbase rails api implementation
+
+API: https://raw.githubusercontent.com/jetbase-io/jetbase-swagger/master/swagger.yml
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
