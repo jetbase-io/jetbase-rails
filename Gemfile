@@ -9,16 +9,14 @@ gem 'rails', '~> 5.2.2'
 gem 'puma', '~> 3.11'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-
-# DB
+# DB driver
 gem 'pg'
-# API
-gem 'grape', '1.2.3'
-# Auth
+# Auth token generation
 gem 'jwt'
+# json serialization
+gem 'fast_jsonapi'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -36,7 +34,7 @@ end
 group :test do
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'rails-controller-testing'
-  gem 'airborne'
+  gem 'airborne', github: 'rxx/airborne'
   gem 'database_cleaner'
 end
 
