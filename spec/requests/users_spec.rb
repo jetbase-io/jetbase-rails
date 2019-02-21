@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users', type: :request do
-  let!(:user) { create :user, username: 'username', password: '12345678' }
+  let!(:user) { create :user, email: 'user@mail.com', password: '12345678' }
   let(:other_user) { create :user }
   let(:headers) do
     { 'Authorization' => user.generate_jwt_token }
@@ -17,7 +17,7 @@ RSpec.describe 'users', type: :request do
 
     it 'returns users collection' do
       get '/users', headers: headers
-      expect(json_body[:results].count).to eq(6)
+      expect(json_body[:data].count).to eq(6)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe 'users', type: :request do
 
     it 'returns user by id' do
       get "/users/#{other_user.id}", headers: headers
-      expect(json_body[:result][:id]).to eq(other_user.id)
+      expect(json_body[:data][:id]).to eq(other_user.id)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe 'users', type: :request do
 
     it 'returns current user' do
       get "/users/current", headers: headers
-      expect(json_body[:result][:id]).to eq(user.id)
+      expect(json_body[:data][:id]).to eq(user.id)
     end
   end
 

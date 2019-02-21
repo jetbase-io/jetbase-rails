@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'auth', type: :request do
-  let!(:user) { create :user, username: 'username', password: '12345678' }
+  let!(:user) { create :user, email: 'user@mail.com', password: '12345678' }
 
   let(:headers) do
     { 'Authorization' => user.generate_jwt_token }
@@ -9,17 +9,17 @@ RSpec.describe 'auth', type: :request do
 
   describe 'POST /login' do
     it 'responds successfully' do
-      post '/login', params: { username: 'username', password: '12345678' }
+      post '/login', params: { email: 'user@mail.com', password: '12345678' }
       expect(response).to be_successful
     end
 
     it 'returns jwt token' do
-      post '/login', params: { username: 'username', password: '12345678' }
+      post '/login', params: { email: 'user@mail.com', password: '12345678' }
       expect_json_types token: :string
     end
 
     it 'returns 400 if invalid password' do
-      post '/login', params: { username: 'username', password: '1234567' }
+      post '/login', params: { email: 'user@mail.com', password: '1234567' }
       expect(response.status).to eq(400)
     end
   end

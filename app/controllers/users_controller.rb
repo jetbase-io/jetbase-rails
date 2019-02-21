@@ -4,22 +4,22 @@ class UsersController < ApplicationController
 
   def index
     users = User.all
-    render json: { results: users }
+    render json: { data: users }
   end
 
   def show
-    render json: { result: @user }
+    render json: { data: @user }
   end
 
   def current
-    render json: { result: current_user }
+    render json: { data: current_user }
   end
 
   def create
     user = User.new user_params
 
     if user.save
-      render json: user
+      render json: { data: user }
     else
       error! errors: user.errors
     end
@@ -27,9 +27,9 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: { data: @user }
     else
-      error! errors: user.errors
+      error! errors: @user.errors
     end
   end
 
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:username, :first_name, :last_name, :user_status, :password)
+    params.permit(:first_name, :last_name, :password)
   end
 
   def password_params

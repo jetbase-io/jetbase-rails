@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::API
   rescue_from JWT::ExpiredSignature do
-    error!({ errors: ["Token expired"] }, 401)
+    error!({ messages: ["Token expired"] }, 401)
   end
 
   rescue_from JWT::DecodeError do
-    error!({ errors: ["Invalid token"] }, 401)
+    error!({ messages: ["Invalid token"] }, 401)
   end
 
   protected
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate!
-    error!({ errors: ['Unauthorized. Invalid or expired token.'] }, 401) unless current_user
+    error!({ messages: ['Unauthorized. Invalid or expired token.'] }, 401) unless current_user
   end
 
   def http_auth_header_token
