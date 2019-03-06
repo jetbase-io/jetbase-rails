@@ -1,0 +1,13 @@
+addons:
+  postgresql: 9.6
+language: ruby
+rvm:
+  - 2.5.3
+before_install:
+  - gem update --system
+  - gem install bundler
+before_script:
+  - psql -c 'create database jetbase_test;' -U postgres
+script:
+  - bundle exec rails db:migrate RAILS_ENV=test
+  - bundle exec rspec
