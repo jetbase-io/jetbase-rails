@@ -59,6 +59,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.2)
+    cancancan (2.3.0)
     concurrent-ruby (1.1.4)
     crass (1.0.4)
     database_cleaner (1.7.0)
@@ -202,6 +203,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
+  cancancan (~> 2.0)
   database_cleaner
   factory_bot_rails
   fast_jsonapi
