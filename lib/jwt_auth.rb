@@ -17,6 +17,6 @@ class JwtAuth
   end
 
   def self.auth_secret
-    Jetbase::Application.credentials.secret_key_base
+    Jetbase::Application.credentials.secret_key_base || 'secret_key'
   end
 end
