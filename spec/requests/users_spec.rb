@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'users', type: :request do
+  let!(:role) { create :role, name: 'admin' }
+  let!(:admin_user) { create :user, email: 'user@mail.com', password: '12345678', role_id: role.id }
   let!(:user) { create :user, email: 'user@mail.com', password: '12345678' }
   let(:other_user) { create :user }
+  let(:headers_admin) do
+    { 'Authorization' => admin_user.generate_jwt_token }
+  end
   let(:headers) do
     { 'Authorization' => user.generate_jwt_token }
   end
@@ -17,7 +22,7 @@ RSpec.describe 'users', type: :request do
 
     it 'returns users collection' do
       get '/users', headers: headers
-      expect(json_body[:data].count).to eq(6)
+      expect(json_body[:data].count).to eq(7)
     end
   end
 
@@ -58,14 +63,19 @@ RSpec.describe 'users', type: :request do
     end
 
     it 'responds successfully' do
-      post '/users', headers: headers, params: user_params
+      post '/users', headers: headers_admin, params: user_params
       expect(response).to be_successful
+    end
+
+    it 'responds forbidden' do
+      post '/users', headers: headers, params: user_params
+      expect(response).to be_forbidden
     end
 
     it 'creates user' do
       expect do
-        post '/users', headers: headers, params: user_params
-      end.to change { User.count }.from(1).to(2)
+        post '/users', headers: headers_admin, params: user_params
+      end.to change { User.count }.from(2).to(3)
     end
   end
 
@@ -75,13 +85,19 @@ RSpec.describe 'users', type: :request do
         first_name: 'other first name'
       }
     end
+
     it 'responds successfully' do
-      put "/users/#{user.id}", headers: headers, params: user_params
+      put "/users/#{user.id}", headers: headers_admin, params: user_params
       expect(response).to be_successful
     end
 
+    it 'responds forbidden' do
+      put "/users/#{admin_user.id}", headers: headers, params: user_params
+      expect(response).to be_forbidden
+    end
+
     it 'updates user' do
-      put "/users/#{user.id}", headers: headers, params: user_params
+      put "/users/#{user.id}", headers: headers_admin, params: user_params
       expect(user.reload.first_name).to eq('other first name')
     end
   end
@@ -92,6 +108,11 @@ RSpec.describe 'users', type: :request do
       expect(response).to be_successful
     end
 
+    it 'responds forbidden' do
+      put "/users/#{admin_user.id}/password", headers: headers, params: { password: 'other_pass' }
+      expect(response).to be_forbidden
+    end
+
     it 'updates user password' do
       put "/users/#{user.id}/password", headers: headers, params: { password: 'other_pass' }
       expect(user.reload.authenticate('other_pass')).to be_truthy
@@ -100,15 +121,20 @@ RSpec.describe 'users', type: :request do
 
   describe 'DELETE /users/:id' do
     it 'responds successfully' do
-      delete "/users/#{other_user.id}", headers: headers
+      delete "/users/#{other_user.id}", headers: headers_admin
       expect(response).to be_successful
+    end
+
+    it 'responds forbidden' do
+      delete "/users/#{admin_user.id}", headers: headers
+      expect(response).to be_forbidden
     end
 
     it 'deletes user' do
       other_user
       expect do
-        delete "/users/#{other_user.id}", headers: headers
-      end.to change { User.count }.from(2).to(1)
+        delete "/users/#{other_user.id}", headers: headers_admin
+      end.to change { User.count }.from(3).to(2)
     end
   end
 end
