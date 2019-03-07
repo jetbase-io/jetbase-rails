@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  post :login, to: 'auth#login'
+  delete :logout, to: 'auth#logout'
+
+  resources :users do
+    get :current, to: 'users#current', on: :collection
+    put :password, to: 'users#update_password', on: :member
+  end
 end
