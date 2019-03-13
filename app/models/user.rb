@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
+
   belongs_to :role, optional: true
+
+  validates :email, presence: true, uniqueness: true
 
   def generate_jwt_token
     JwtAuth.issue({ user_id: id })
@@ -12,14 +15,14 @@ class User < ApplicationRecord
 
   def permissions
     if is_admin?
-      return [
+      [
         { action: :read, entities: 'User', can: true },
         { action: :create, entities: 'User', can: true },
         { action: :delete, entities: 'User', can: true },
         { action: :update, entities: 'User', can: true }
       ]
     else
-      return [
+      [
         { action: :read, entities: 'User', can: true },
         { action: :create, entities: 'User', cannot: true },
         { action: :delete, entities: 'User', cannot: true },

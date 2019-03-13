@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    return error!({ messages: ["Action forbidden"] }, 403) if cannot? :create, User
+    authorize! :create, User
 
     user = User.new user_params
 
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    return error!({ messages: ["Action forbidden"] }, 403) if cannot? :update, @user
+    authorize! :update, @user
 
     if @user.update(user_params)
       render json: { data: @user }
@@ -38,7 +38,9 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    return error!({ messages: ["Action forbidden"] }, 403) if cannot? :update, @user
+    authorize! :update, @user
+
+    return error!({ messages: ['Please, enter correct current password'] }, 403) unless @user.authenticate(old_password)
 
     if @user.update(password_params)
       head 200
@@ -48,7 +50,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    return error!({ messages: ["Action forbidden"] }, 403) if cannot? :delete, @user
+    authorize! :delete, @user
 
     @user.destroy
   end
@@ -60,10 +62,14 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:first_name, :last_name, :password)
+    params.permit(:email, :first_name, :last_name, :password)
   end
 
   def password_params
     params.permit(:password)
+  end
+
+  def old_password
+    params[:old_password]
   end
 end
