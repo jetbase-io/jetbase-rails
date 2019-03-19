@@ -9,5 +9,6 @@ before_install:
 before_script:
   - psql -c 'create database jetbase_test;' -U postgres
 script:
+  - rubocop
   - bundle exec rails db:migrate RAILS_ENV=test
   - bundle exec rspec
