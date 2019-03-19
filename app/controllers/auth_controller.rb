@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthController < ApplicationController
   before_action :authenticate!, except: [:login]
 
@@ -8,7 +10,7 @@ class AuthController < ApplicationController
       token = user.generate_jwt_token
       render json: { id: user.id, token: token, permissions: user.permissions }
     else
-      error!({ errors: ['Username or password is invalid'] })
+      error!(errors: ['Username or password is invalid'])
     end
   end
 

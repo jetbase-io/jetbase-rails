@@ -1,0 +1,40 @@
+AllCops:
+  Exclude:
+    - db/**/*
+    - bin/**/*
+Metrics/LineLength:
+  Enabled: false
+StringLiterals:
+  Enabled: false
+Documentation:
+  Enabled: false
+MethodLength:
+  CountComments: false
+  Max: 50
+Style/ClassAndModuleChildren:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 55
+Metrics/ClassLength:
+  CountComments: false
+  Max: 270
+Style/Next:
+  EnforcedStyle: skip_modifier_ifs
+  MinBodyLength: 10
+Metrics/CyclomaticComplexity:
+  Max: 25
+Metrics/PerceivedComplexity:
+  Max: 25
+Rails/HasAndBelongsToMany:
+    Enabled: false
+Performance/Casecmp:
+  Enabled: false
+Rails/Output:
+  Enabled: false
+Style/ClassVars:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'

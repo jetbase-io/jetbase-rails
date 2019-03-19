@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include Auth
 
@@ -15,7 +17,7 @@ class ApplicationController < ActionController::API
 
   protected
 
-  def error! data, status = 400
+  def error!(data, status = 400)
     render json: data, status: status
   end
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :authenticate!
-  before_action :find_user, only: [:show, :update, :update_password, :destroy]
+  before_action :find_user, only: %i[show update update_password destroy]
 
   def index
     users = User.all
