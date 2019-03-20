@@ -8,7 +8,7 @@ class AuthController < ApplicationController
       token = user.generate_jwt_token
       render json: { id: user.id, token: token, permissions: user.permissions }
     else
-      error!({ errors: ['Username or password is invalid'] })
+      error!(errors: ['Username or password is invalid'])
     end
   end
 

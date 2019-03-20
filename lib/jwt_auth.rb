@@ -13,7 +13,7 @@ class JwtAuth
     JWT.decode(token,
                auth_secret,
                true,
-               { algorithm: ALGORITHM }).first
+               algorithm: ALGORITHM).first
   end
 
   def self.auth_secret
