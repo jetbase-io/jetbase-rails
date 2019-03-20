@@ -5,23 +5,21 @@ AllCops:
     - vendor/bundle/**/*
 Metrics/LineLength:
   Enabled: false
-StringLiterals:
-  Enabled: false
 Documentation:
   Enabled: false
 MethodLength:
   CountComments: false
   Max: 50
-Style/ClassAndModuleChildren:
-  Enabled: false
 Metrics/AbcSize:
   Max: 55
 Metrics/ClassLength:
   CountComments: false
   Max: 270
-Style/Next:
-  EnforcedStyle: skip_modifier_ifs
-  MinBodyLength: 10
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
 Metrics/CyclomaticComplexity:
   Max: 25
 Metrics/PerceivedComplexity:
@@ -32,10 +30,16 @@ Performance/Casecmp:
   Enabled: false
 Rails/Output:
   Enabled: false
+StringLiterals:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
 Style/ClassVars:
   Enabled: false
-Metrics/BlockLength:
-  Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'spec/**/*.rb'
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/MutableConstant:
+  Enabled: false
+Style/Next:
+  EnforcedStyle: skip_modifier_ifs
+  MinBodyLength: 10

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Auth
   def authenticate!
     error!({ messages: ['Unauthorized. Invalid or expired token.'] }, 401) if token_exist? || !current_user
