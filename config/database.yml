@@ -1,7 +1,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db
+  # TODO: extract this in to ENV
+  # host: db 
   pool: 5
   username: postgres
   password: postgres
