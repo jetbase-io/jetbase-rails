@@ -1,7 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
 
-  belongs_to :role, optional: true
+  has_many :user_permissions
+  has_many :permissions, through: :user_permissions
+  has_many :user_roles
+  has_many :roles, through: :user_roles
 
   validates :email, presence: true, uniqueness: true
 
@@ -10,24 +13,10 @@ class User < ApplicationRecord
   end
 
   def admin?
-    role && role.name == 'admin'
+    roles.map(&:name).include?("admin")
   end
 
-  def permissions
-    if admin?
-      [
-        { action: :read, entities: 'User', can: true },
-        { action: :create, entities: 'User', can: true },
-        { action: :delete, entities: 'User', can: true },
-        { action: :update, entities: 'User', can: true }
-      ]
-    else
-      [
-        { action: :read, entities: 'User', can: true },
-        { action: :create, entities: 'User', cannot: true },
-        { action: :delete, entities: 'User', cannot: true },
-        { action: :update, entities: 'User', cannot: true }
-      ]
-    end
+  def permissions_names
+    (permissions.map(&:name) + roles.map(&:permissions_names).flatten).uniq
   end
 end
